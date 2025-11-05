@@ -31,7 +31,7 @@ class BatchTest {
                 }
             }
         }
-        println("高并发写入完成：$concurrencyNumber 个任务，每任务 $batchSize 行，总用时 ${time}ms")
+        println("高并发写入完成：$concurrencyNumber 个并发任务，每任务 $batchSize 条，总用时 ${time}ms")
     }
 }
 
