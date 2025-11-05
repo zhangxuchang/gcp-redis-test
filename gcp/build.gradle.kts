@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.0.20"
+    application
 }
 
 group = "redis.test"
@@ -7,6 +8,11 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+}
+
+// define the main class
+application {
+    mainClass.set("BasicTestKt")
 }
 
 dependencies {
