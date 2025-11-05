@@ -12,6 +12,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation("redis.clients:jedis:7.0.0")
+    implementation("ch.qos.logback:logback-classic:1.5.18")
     implementation("org.slf4j:slf4j-api:2.0.16")
 }
 
