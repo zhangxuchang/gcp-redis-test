@@ -10,6 +10,9 @@ fun main(args: Array<String>) {
         "cluster" -> {
             BasicClusterTest.main()
         }
+        "single-batch" -> {
+            BatchTest.main()
+        }
         "cluster-batch" -> {
             BatchClusterTest.main()
         }

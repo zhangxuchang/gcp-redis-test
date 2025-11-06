@@ -2,6 +2,7 @@ import redis.clients.jedis.JedisPool
 import kotlin.system.measureTimeMillis
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
 
 object BatchTest {
 
@@ -22,7 +23,7 @@ object BatchTest {
                         players.forEach { row ->
                             val playerId = row.keys.first()
                             val playerData = row[playerId] ?: ""
-                            println("Redis save player: $playerId")
+                            println("Redis single save player: $playerId")
                             jedisPool.resource.use { jedis ->
                                 jedis.set(playerId, playerData)
                             }
@@ -33,11 +34,13 @@ object BatchTest {
         }
         println("高并发写入完成：$concurrencyNumber 个并发任务，每任务 $batchSize 条，总用时 ${time}ms")
     }
-    suspend fun main() {
+    fun main() {
         println("Starting batch write:")
-        val jedisPool = JedisPool("localhost", 6379)
-
-        highConcurrencyBatchWrite(jedisPool, 2, 10)
+        // 10.19.80.4:6379
+        val jedisPool = JedisPool("10.19.80.4", 6379)
+        runBlocking {
+            highConcurrencyBatchWrite(jedisPool, 2, 10)
+        }
     }
 }
 
