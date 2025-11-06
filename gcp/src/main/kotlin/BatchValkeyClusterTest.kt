@@ -24,14 +24,16 @@ object BatchValkeyClusterTest {
                         players.forEach { row ->
                             val playerId = row.keys.first()
                             val playerData = row[playerId] ?: ""
-                            println("Valkey cluster save player: $playerId")
-                            jedis.set(playerId, playerData)
+                            //println("Valkey cluster save player: $playerId")
+                            //jedis.set(playerId, playerData)
+                            val data = jedis.get(playerId)
+                            println("Valkey cluster read player: $data")
                         }
                     }
                 }
             }
         }
-        println("高并发写入完成：$concurrencyNumber 个并发任务，每任务 $batchSize 条，总用时 ${time}ms")
+        println("高并发读完成：$concurrencyNumber 个并发任务，每任务 $batchSize 条，总用时 ${time}ms")
     }
 
     fun main() {
