@@ -42,7 +42,7 @@ object BatchTest {
     fun main() {
         println("Starting batch write:")
         // 10.19.80.21:6379
-        val jedisPool = JedisPool("10.19.80.21", 6379)
+        val jedisPool = JedisPool("10.19.80.20", 6379)
         runBlocking {
             highConcurrencyBatchWrite(jedisPool, 30, 2000)
         }
