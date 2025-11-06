@@ -39,7 +39,7 @@ object BatchTest {
         // 10.19.80.4:6379
         val jedisPool = JedisPool("10.19.80.4", 6379)
         runBlocking {
-            highConcurrencyBatchWrite(jedisPool, 2, 10)
+            highConcurrencyBatchWrite(jedisPool, 20, 1000)
         }
     }
 }
