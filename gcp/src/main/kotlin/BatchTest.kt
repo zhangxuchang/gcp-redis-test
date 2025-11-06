@@ -22,15 +22,15 @@ object BatchTest {
                         }
                         players.forEach { row ->
                             val playerId = row.keys.first()
-                            val playerData = row[playerId] ?: ""
-                            println("Redis single save player: $playerId")
-                            jedisPool.resource.use { jedis ->
-                                jedis.set(playerId, playerData)
-                            }
-//                            val data = jedisPool.resource.use { jedis ->
-//                                jedis.get(playerId)
+//                            val playerData = row[playerId] ?: ""
+//                            println("Redis single save player: $playerId")
+//                            jedisPool.resource.use { jedis ->
+//                                jedis.set(playerId, playerData)
 //                            }
-//                            println("Redis single read player: $data")
+                            val data = jedisPool.resource.use { jedis ->
+                                jedis.get(playerId)
+                            }
+                            println("Redis single read player: $data")
                         }
                     }
                 }

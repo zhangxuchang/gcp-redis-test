@@ -24,11 +24,11 @@ object BatchClusterTest {
                         }
                         players.forEach { row ->
                             val playerId = row.keys.first()
-                            val playerData = row[playerId] ?: ""
-                            println("Redis cluster save player: $playerId")
-                            jedis.set(playerId, playerData)
-//                            val data = jedis.get(playerId)
-//                            println("Redis cluster read player: $data")
+//                            val playerData = row[playerId] ?: ""
+//                            println("Redis cluster save player: $playerId")
+//                            jedis.set(playerId, playerData)
+                            val data = jedis.get(playerId)
+                            println("Redis cluster read player: $data")
                         }
                     }
                 }
