@@ -1,6 +1,7 @@
 package civ
 
-import redis.clients.jedis.resps.Tuple
+//import redis.clients.jedis.resps.Tuple
+import io.valkey.resps.Tuple
 
 interface RedisSession {
     fun set(key: String?, value: String?): Boolean
