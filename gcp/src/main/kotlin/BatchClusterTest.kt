@@ -25,23 +25,23 @@ object BatchClusterTest {
                         players.forEach { row ->
                             val playerId = row.keys.first()
                             val playerData = row[playerId] ?: ""
-                            //println("Redis cluster save player: $playerId")
-                            //jedis.set(playerId, playerData)
-                            val data = jedis.get(playerId)
-                            println("Redis cluster read player: $data")
+                            println("Redis cluster save player: $playerId")
+                            jedis.set(playerId, playerData)
+//                            val data = jedis.get(playerId)
+//                            println("Redis cluster read player: $data")
                         }
                     }
                 }
             }
         }
-        println("高并发读完成：$concurrencyNumber 个并发任务，每任务 $batchSize 条，总用时 ${time}ms")
+        println("高并发完成：$concurrencyNumber 个并发任务，每任务 $batchSize 条，总用时 ${time}ms")
     }
 
     fun main() {
         println("Starting cluster batch write:")
         val jedisClusterNodes: MutableSet<HostAndPort> = HashSet()
-        //10.150.0.7:6379
-        jedisClusterNodes.add(HostAndPort("10.150.0.7", 6379))
+        //10.150.0.12:6379
+        jedisClusterNodes.add(HostAndPort("10.150.0.12", 6379))
 
         //  本地 redis 不支持 cluster 模式，运行报错： ERR This instance has cluster support disabled
         //  实际使用时请连接到集群的多个节点
