@@ -10,8 +10,11 @@ fun main(args: Array<String>) {
         "cluster" -> {
             BasicClusterTest.main()
         }
+        "valkey" -> {
+            ValkeyClusterTest.main()
+        }
         else -> {
-            println("No valid action type provided. Please use 'valkey' or 'cluster'.")
+            println("No valid action type provided. Please use 'basic' or 'cluster', or valkey.")
         }
     }
 }
