@@ -13,6 +13,9 @@ fun main(args: Array<String>) {
         "cluster-batch" -> {
             BatchClusterTest.main()
         }
+        "valkey-batch" -> {
+            BatchValkeyClusterTest.main()
+        }
         "valkey" -> {
             ValkeyClusterTest.main()
         }
