@@ -1,12 +1,15 @@
-import redis.clients.jedis.JedisPool
 import kotlin.system.measureTimeMillis
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
+import redis.clients.jedis.HostAndPort
+import redis.clients.jedis.JedisCluster
 
-object BatchTest {
+@Suppress("DuplicatedCode")
+object BatchClusterTest {
 
     private suspend fun highConcurrencyBatchWrite(
-            jedisPool: JedisPool,
+            jedis: JedisCluster,
             concurrencyNumber: Int = 2,
             batchSize: Int = 10
     ) {
@@ -22,10 +25,8 @@ object BatchTest {
                         players.forEach { row ->
                             val playerId = row.keys.first()
                             val playerData = row[playerId] ?: ""
-                            println("Redis save player: $playerId")
-                            jedisPool.resource.use { jedis ->
-                                jedis.set(playerId, playerData)
-                            }
+                            println("Redis cluster save player: $playerId")
+                            jedis.set(playerId, playerData)
                         }
                     }
                 }
@@ -33,11 +34,19 @@ object BatchTest {
         }
         println("高并发写入完成：$concurrencyNumber 个并发任务，每任务 $batchSize 条，总用时 ${time}ms")
     }
-    suspend fun main() {
-        println("Starting batch write:")
-        val jedisPool = JedisPool("localhost", 6379)
 
-        highConcurrencyBatchWrite(jedisPool, 2, 10)
+    fun main() {
+        println("Starting cluster batch write:")
+        val jedisClusterNodes: MutableSet<HostAndPort> = HashSet()
+        //10.150.0.7:6379
+        jedisClusterNodes.add(HostAndPort("10.150.0.7", 6379))
+
+        //  本地 redis 不支持 cluster 模式，运行报错： ERR This instance has cluster support disabled
+        //  实际使用时请连接到集群的多个节点
+        val jedis = JedisCluster(jedisClusterNodes)
+        runBlocking {
+            highConcurrencyBatchWrite(jedis, 2, 10)
+        }
     }
 }
 
