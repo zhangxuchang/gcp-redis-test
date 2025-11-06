@@ -22,18 +22,23 @@ object BatchTest {
                         }
                         players.forEach { row ->
                             val playerId = row.keys.first()
-                            val playerData = row[playerId] ?: ""
-                            println("Redis single save player: $playerId")
-                            jedisPool.resource.use { jedis ->
-                                jedis.set(playerId, playerData)
+//                            val playerData = row[playerId] ?: ""
+//                            println("Redis single save player: $playerId")
+//                            jedisPool.resource.use { jedis ->
+//                                jedis.set(playerId, playerData)
+//                            }
+                            val data = jedisPool.resource.use { jedis ->
+                                jedis.get(playerId)
                             }
+                            println("Redis single read player: $data")
                         }
                     }
                 }
             }
         }
-        println("高并发写入完成：$concurrencyNumber 个并发任务，每任务 $batchSize 条，总用时 ${time}ms")
+        println("高并发读完成：$concurrencyNumber 个并发任务，每任务 $batchSize 条，总用时 ${time}ms")
     }
+
     fun main() {
         println("Starting batch write:")
         // 10.19.80.4:6379
