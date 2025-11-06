@@ -45,7 +45,7 @@ object BatchClusterTest {
         //  实际使用时请连接到集群的多个节点
         val jedis = JedisCluster(jedisClusterNodes)
         runBlocking {
-            highConcurrencyBatchWrite(jedis, 20, 1000)
+            highConcurrencyBatchWrite(jedis, 30, 2000)
         }
     }
 }
